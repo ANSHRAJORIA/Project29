@@ -1,6 +1,7 @@
 const Engine = Matter.Engine;
 const World = Matter.World;
 const Bodies = Matter.Bodies;
+const Body = Matter.Body
 const Constraint = Matter.Constraint;
 
 var engine,world;
@@ -21,9 +22,9 @@ function setup() {
 engine = Engine.create();
 world = engine.world;
 
-  ground1 = new Ground(400,350,330,10);
-  ground = new Ground(750,250,250,10)
-  backGround = new Ground(450,500,900,20)
+  ground1 = new Stand(400,350,330,10);
+  ground = new Stand(750,250,250,10)
+  backGround = new Stand(450,500,900,20)
 
   // Making Blocks
 
@@ -77,6 +78,8 @@ world = engine.world;
   hexa =Bodies.circle(50,200,20);
   World.add(world,hexa)
   slingShot = new SlingShot(this.hexa,{x:100,y:200})
+
+  
   
 
   Engine.run(engine)
@@ -91,7 +94,11 @@ world = engine.world;
 }
 
 function draw() {
-  background(0,0,0);  
+  background(255,255,153);
+  Engine.update(engine); 
+  
+  debug:true;
+ 
   drawSprites();
     
   
@@ -129,12 +136,24 @@ function draw() {
   box8.display()
   box9.display()
   backGround.display()
+  
 
-  SlingShot.display(){
-
-    
+  slingShot.display()
     imageMode(CENTER)
     image (hexa_image,hexa.position.x,hexa.position.y,40,40);
+
+  
+
+
     
-  }
+    
+  
 }
+
+function mouseDragged(){
+	Matter.Body.setPosition(hexa.body,{x:mouseX,y:mouseY});
+  }
+  
+  function mouseReleased(){
+	slingShot.fly();
+  }
